@@ -1,0 +1,43 @@
+.ba-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #e8f0fe;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.ba-count {
+  font-size: 13px;
+  color: #1a73e8;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.ba-btn {
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.ba-btn:hover {
+  background: #f5f5f5;
+}
+
+.ba-btn-danger {
+  color: #d93025;
+  border-color: #d93025;
+}
+
+.ba-btn-danger:hover {
+  background: #fce8e6;
+}
+
+.ba-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

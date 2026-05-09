@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.superpowers/
+.DS_Store
+*.log
+npm-debug.log*
+.env
+.env.local
+coverage/
+Thumbs.db
+.vscode/
+.idea/

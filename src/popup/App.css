@@ -1,0 +1,22 @@
+.popup-container {
+  padding: 12px;
+  font-size: 14px;
+}
+
+.section-label {
+  font-size: 12px;
+  color: #888;
+  margin: 8px 0 4px;
+  padding: 0 8px;
+}
+
+.recent-item {
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333;
+}
+
+.recent-item:hover {
+  background: #f0f0f0;
+}

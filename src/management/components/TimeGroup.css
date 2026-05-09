@@ -1,0 +1,66 @@
+.tg-status {
+  padding: 48px 16px;
+  text-align: center;
+  color: #999;
+}
+
+.tg-group {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tg-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  cursor: pointer;
+  user-select: none;
+  background: #fafafa;
+}
+
+.tg-header:hover {
+  background: #f0f0f0;
+}
+
+.tg-arrow {
+  font-size: 10px;
+  color: #999;
+  width: 12px;
+}
+
+.tg-label {
+  font-weight: 500;
+  flex: 1;
+}
+
+.tg-count {
+  color: #999;
+  font-size: 13px;
+}
+
+.tg-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px 6px 32px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tg-item:hover {
+  background: #f8f9fa;
+}
+
+.tg-title {
+  flex: 1;
+  color: #1a73e8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tg-time {
+  color: #999;
+  font-size: 12px;
+  margin-left: 12px;
+  flex-shrink: 0;
+}

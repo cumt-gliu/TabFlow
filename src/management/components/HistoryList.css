@@ -1,0 +1,152 @@
+.hl-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  color: #999;
+}
+
+.hl-status.error {
+  color: #d93025;
+}
+
+.hl-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 4px;
+}
+
+.hl-count {
+  flex: 1;
+  font-size: 13px;
+  color: #666;
+}
+
+.hl-sort {
+  display: flex;
+  gap: 4px;
+}
+
+.hl-sort-btn {
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+.hl-sort-btn.active {
+  background: #e8f0fe;
+  color: #1a73e8;
+  border-color: #1a73e8;
+}
+
+.hl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.hl-item:hover {
+  background: #f8f9fa;
+}
+
+.hl-check {
+  padding-top: 2px;
+}
+
+.hl-content {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.hl-title {
+  font-weight: 500;
+  color: #1a73e8;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hl-url {
+  font-size: 12px;
+  color: #006621;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hl-meta {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.hl-menu {
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #999;
+  font-size: 16px;
+  visibility: hidden;
+}
+
+.hl-item:hover .hl-menu {
+  visibility: visible;
+}
+
+.hl-dropdown {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 10;
+  min-width: 140px;
+  overflow: hidden;
+}
+
+.hl-dropdown-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.hl-dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.hl-dropdown-item.danger {
+  color: #d93025;
+}
+
+.hl {
+  background: #fff;
+}
+
+.hl mark {
+  background: #fff3cd;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+
+.retry-btn {
+  margin-left: 8px;
+  padding: 4px 12px;
+  border: 1px solid #d93025;
+  border-radius: 4px;
+  background: white;
+  color: #d93025;
+  cursor: pointer;
+  font-size: 12px;
+}

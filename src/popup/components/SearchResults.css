@@ -1,0 +1,67 @@
+.results {
+  margin-top: 8px;
+}
+
+.result-item {
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+}
+
+.result-item:hover {
+  background: #f8f9fa;
+}
+
+.result-title {
+  font-weight: 500;
+  color: #1a73e8;
+  font-size: 13px;
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-url {
+  font-size: 12px;
+  color: #006621;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-meta {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.highlight {
+  background: #fff3cd;
+  padding: 0 1px;
+  border-radius: 2px;
+}
+
+.status-text {
+  text-align: center;
+  padding: 24px 8px;
+  color: #999;
+  font-size: 13px;
+}
+
+.status-text.error {
+  color: #d93025;
+}
+
+.view-all {
+  text-align: center;
+  padding: 10px;
+  color: #1a73e8;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.view-all:hover {
+  background: #f0f0f0;
+}

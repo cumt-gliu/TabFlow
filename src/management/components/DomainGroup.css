@@ -1,0 +1,65 @@
+.dg-status {
+  padding: 48px 16px;
+  text-align: center;
+  color: #999;
+}
+
+.dg-group {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dg-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dg-header:hover {
+  background: #f5f5f5;
+}
+
+.dg-arrow {
+  font-size: 10px;
+  color: #999;
+  width: 12px;
+}
+
+.dg-domain {
+  font-weight: 500;
+  flex: 1;
+}
+
+.dg-count {
+  color: #999;
+  font-size: 13px;
+}
+
+.dg-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px 6px 32px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.dg-item:hover {
+  background: #f8f9fa;
+}
+
+.dg-title {
+  flex: 1;
+  color: #1a73e8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dg-meta {
+  color: #999;
+  font-size: 12px;
+  margin-left: 12px;
+  flex-shrink: 0;
+}

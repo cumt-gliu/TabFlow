@@ -1,0 +1,6 @@
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: { chrome: '120' } }],
+    ['@babel/preset-react', { runtime: 'automatic' }],
+  ],
+};

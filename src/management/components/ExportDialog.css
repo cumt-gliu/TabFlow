@@ -1,0 +1,68 @@
+.ed-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.ed-dialog {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  min-width: 360px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+
+.ed-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.ed-count {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.ed-formats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.ed-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ed-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ed-btn {
+  padding: 8px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ed-btn-primary {
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+
+.ed-btn-primary:hover {
+  background: #1557b0;
+}
