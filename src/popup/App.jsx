@@ -12,6 +12,7 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
   const debounceRef = useRef(null);
+  const requestIdRef = useRef(0);
 
   useEffect(() => {
     getRecentSearches().then(setRecentSearches);
@@ -43,13 +44,15 @@ export default function App() {
     }
 
     setStatus('loading');
+    const requestId = ++requestIdRef.current;
     debounceRef.current = setTimeout(async () => {
       try {
         const res = await searchHistory({ query: value });
+        if (requestId !== requestIdRef.current) return;
         setResults(res);
         setStatus(res.length > 0 ? 'results' : 'empty');
       } catch {
-        setStatus('error');
+        if (requestId === requestIdRef.current) setStatus('error');
       }
     }, 300);
   }
@@ -59,10 +62,14 @@ export default function App() {
     setQuery(value);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     setStatus('loading');
+    const requestId = ++requestIdRef.current;
     searchHistory({ query: value }).then(res => {
+      if (requestId !== requestIdRef.current) return;
       setResults(res);
       setStatus(res.length > 0 ? 'results' : 'empty');
-    }).catch(() => setStatus('error'));
+    }).catch(() => {
+      if (requestId === requestIdRef.current) setStatus('error');
+    });
   }
 
   function handleViewAll() {
