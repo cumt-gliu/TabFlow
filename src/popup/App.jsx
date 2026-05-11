@@ -40,7 +40,7 @@ export default function App() {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
-  async function handleInputChange(value) {
+  function handleInputChange(value) {
     setQuery(value);
     setActiveIndex(-1);
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -53,9 +53,7 @@ export default function App() {
       return;
     }
 
-    if (status !== 'idle') {
-      setStatus('idle');
-    }
+    setStatus('idle');
 
     debounceRef.current = setTimeout(async () => {
       setSuggestionsStatus('loading');
@@ -146,7 +144,7 @@ export default function App() {
         <SuggestionsDropdown
           query={query}
           suggestions={suggestions}
-          recentSearches={recentSearches}
+          recentSearches={recentSearches.slice(0, 3)}
           activeIndex={activeIndex}
           status={suggestionsStatus}
           onSelect={handleSuggestionSelect}
