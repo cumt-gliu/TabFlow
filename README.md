@@ -4,17 +4,12 @@ Chrome 浏览历史高效管理与搜索扩展。基于 Manifest V3 构建，提
 
 ## 功能
 
-- **快速搜索** — 通过快捷键（`Ctrl+Shift+T` / `Cmd+Shift+T`）唤起搜索弹窗，实时搜索标题和 URL
+- **输入即搜** — 打开弹窗后直接输入关键词，实时搜索标题和 URL，无需额外操作
+- **最近搜索** — 弹窗空闲时展示最近搜索记录，一键快速回溯
 - **历史记录管理** — 独立管理页面，支持全部列表、按域名分组、按时间分组三种视图
 - **批量操作** — 批量删除选定记录、按域名/时间段一键清理
 - **数据导出** — 将历史记录导出为 CSV 或 JSON 格式
 - **键盘快捷键** — `Ctrl+Shift+T` 打开搜索弹窗，`Ctrl+Shift+L`（Mac: `Cmd+Shift+L`）打开管理页
-
-## 截图
-
-| Popup 搜索 | 管理页面 |
-|---|---|
-| ![Popup](screenshots/popup.png) | ![Management](screenshots/management.png) |
 
 ## 技术栈
 
@@ -59,11 +54,11 @@ npm run build
 tabflow/
 ├── src/
 │   ├── popup/              # 快速搜索弹窗
-│   │   ├── App.jsx
+│   │   ├── App.jsx         # 状态管理：idle / loading / results / empty / error
 │   │   ├── components/
-│   │   │   ├── SearchBar.jsx
-│   │   │   ├── SearchSuggestions.jsx
-│   │   │   └── SearchResults.jsx
+│   │   │   ├── SearchBar.jsx         # 搜索输入框（自动聚焦）
+│   │   │   ├── SearchSuggestions.jsx # 最近搜索推荐（idle 态展示）
+│   │   │   └── SearchResults.jsx     # 搜索结果列表（高亮匹配、查看全部）
 │   │   └── index.html
 │   ├── management/         # 完整历史管理页面
 │   │   ├── App.jsx
