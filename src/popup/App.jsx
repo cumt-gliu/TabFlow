@@ -54,6 +54,17 @@ export default function App() {
     }, 300);
   }
 
+  function handleSuggestionSelect(value) {
+    if (!value.trim()) return;
+    setQuery(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    setStatus('loading');
+    searchHistory({ query: value }).then(res => {
+      setResults(res);
+      setStatus(res.length > 0 ? 'results' : 'empty');
+    }).catch(() => setStatus('error'));
+  }
+
   function handleViewAll() {
     const url = chrome.runtime.getURL('management/index.html')
       + `?q=${encodeURIComponent(query)}`;
@@ -70,7 +81,7 @@ export default function App() {
         <SearchSuggestions
           items={recentSearches}
           label="最近搜索"
-          onSelect={handleInputChange}
+          onSelect={handleSuggestionSelect}
         />
       )}
       {(status === 'loading' || status === 'results' || status === 'empty' || status === 'error') && (
