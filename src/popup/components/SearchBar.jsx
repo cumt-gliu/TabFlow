@@ -1,12 +1,6 @@
 import './SearchBar.css';
 
-export default function SearchBar({ value, onChange, onSearch }) {
-  function handleKeyDown(e) {
-    if (e.key === 'Enter' && onSearch) {
-      onSearch(value);
-    }
-  }
-
+export default function SearchBar({ value, onChange, onKeyDown }) {
   return (
     <div className="search-bar">
       <span className="search-icon">&#128269;</span>
@@ -16,7 +10,7 @@ export default function SearchBar({ value, onChange, onSearch }) {
         placeholder="搜索标题或 URL..."
         value={value}
         onChange={e => onChange(e.target.value)}
-        onKeyDown={handleKeyDown}
+        onKeyDown={onKeyDown}
         autoFocus
       />
     </div>
