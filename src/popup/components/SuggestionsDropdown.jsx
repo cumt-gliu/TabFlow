@@ -1,6 +1,7 @@
 import './SuggestionsDropdown.css';
 
 function formatTime(timestamp) {
+  if (!timestamp) return '';
   const diff = Date.now() - timestamp;
   if (diff < 60000) return '刚刚';
   if (diff < 3600000) return `${Math.floor(diff / 60000)} 分钟前`;
@@ -60,7 +61,7 @@ export default function SuggestionsDropdown({
             try { host = new URL(item.url).hostname; } catch {}
             return (
               <div
-                key={`sg-${i}`}
+                key={item.id || item.url}
                 className={`sd-item ${activeIndex === idx ? 'sd-item-active' : ''}`}
                 onClick={() => onSelect(item)}
               >
@@ -77,6 +78,13 @@ export default function SuggestionsDropdown({
 
       {status === 'loading' && !hasResults && (
         <div className="sd-loading">搜索中...</div>
+      )}
+      {status === 'loading' && hasResults && (
+        <div className="sd-loading-inline">
+          <span className="sd-dot" />
+          <span className="sd-dot" />
+          <span className="sd-dot" />
+        </div>
       )}
 
       {(hasRecent || hasResults) && <div className="sd-divider" />}
