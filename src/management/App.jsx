@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import HistoryList from './components/HistoryList';
 import DomainGroup from './components/DomainGroup';
@@ -24,6 +24,7 @@ export default function App() {
   const [selected, setSelected] = useState(new Set());
   const [sortBy, setSortBy] = useState('lastVisitTime');
   const [showExport, setShowExport] = useState(false);
+  const searchDebounceRef = useRef(null);
 
   useEffect(() => {
     getSettings().then(s => setActiveView(s.defaultView || 'list'));
@@ -31,16 +32,20 @@ export default function App() {
     const q = params.get('q');
     if (q) {
       setQuery(q);
-      handleSearch(q);
+      executeSearch(q);
     } else {
       loadAll();
     }
+    return () => {
+      if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    };
   }, []);
 
-  async function loadAll() {
+  async function executeSearch(value) {
+    if (!value.trim()) { loadAll(); return; }
     setStatus('loading');
     try {
-      const res = await searchHistory({ query: '', maxResults: 200 });
+      const res = await searchHistory({ query: value, maxResults: 200 });
       setResults(res);
       setStatus(res.length > 0 ? 'results' : 'empty');
     } catch {
@@ -48,12 +53,18 @@ export default function App() {
     }
   }
 
-  async function handleSearch(value) {
+  function handleSearch(value) {
     setQuery(value);
-    if (!value.trim()) { loadAll(); return; }
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    searchDebounceRef.current = setTimeout(() => {
+      executeSearch(value);
+    }, 300);
+  }
+
+  async function loadAll() {
     setStatus('loading');
     try {
-      const res = await searchHistory({ query: value, maxResults: 200 });
+      const res = await searchHistory({ query: '', maxResults: 200 });
       setResults(res);
       setStatus(res.length > 0 ? 'results' : 'empty');
     } catch {
