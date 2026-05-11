@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar';
 import SearchSuggestions from './components/SearchSuggestions';
 import SearchResults from './components/SearchResults';
 import { searchHistory } from '../shared/chromeApi';
-import { getRecentSearches, addRecentSearch } from '../shared/storage';
+import { getRecentSearches } from '../shared/storage';
 import './App.css';
 
 export default function App() {
@@ -37,26 +37,21 @@ export default function App() {
 
     if (!value.trim()) {
       setStatus('idle');
+      setResults([]);
       getRecentSearches().then(setRecentSearches);
       return;
     }
 
-    setStatus('idle');
-  }
-
-  async function handleSearch(value) {
-    if (!value.trim()) return;
-    if (debounceRef.current) clearTimeout(debounceRef.current);
     setStatus('loading');
-    try {
-      const res = await searchHistory({ query: value });
-      setResults(res);
-      setStatus(res.length > 0 ? 'results' : 'empty');
-      addRecentSearch(value);
-      setRecentSearches([]);
-    } catch {
-      setStatus('error');
-    }
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const res = await searchHistory({ query: value });
+        setResults(res);
+        setStatus(res.length > 0 ? 'results' : 'empty');
+      } catch {
+        setStatus('error');
+      }
+    }, 300);
   }
 
   function handleViewAll() {
@@ -75,7 +70,7 @@ export default function App() {
         <SearchSuggestions
           items={recentSearches}
           label="最近搜索"
-          onSelect={handleSearch}
+          onSelect={handleInputChange}
         />
       )}
       {(status === 'loading' || status === 'results' || status === 'empty' || status === 'error') && (
