@@ -16,6 +16,7 @@ export default function App() {
   const [suggestionsStatus, setSuggestionsStatus] = useState('idle');
   const [activeIndex, setActiveIndex] = useState(-1);
   const debounceRef = useRef(null);
+  const activeIndexRef = useRef(activeIndex);
 
   useEffect(() => {
     getRecentSearches().then(setRecentSearches);
@@ -34,6 +35,10 @@ export default function App() {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   async function handleInputChange(value) {
     setQuery(value);
@@ -91,9 +96,9 @@ export default function App() {
       setActiveIndex(prev => prev > -1 ? prev - 1 : totalItems - 1);
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      if (activeIndex >= 0 && activeIndex < recentSearches.length + suggestions.length) {
+      if (activeIndexRef.current >= 0 && activeIndexRef.current < recentSearches.length + suggestions.length) {
         const items = [...recentSearches, ...suggestions];
-        const selected = items[activeIndex];
+        const selected = items[activeIndexRef.current];
         if (typeof selected === 'string') {
           handleSearch(selected);
         } else {
