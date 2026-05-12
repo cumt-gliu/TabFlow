@@ -4,7 +4,9 @@ const VIEW_CONFIG = [
   { key: 'list', label: '全部历史', icon: '📋' },
   { key: 'domain', label: '按域名', icon: '📁' },
   { key: 'time', label: '按时间', icon: '📅' },
+  { key: 'bookmarks', label: '收藏', icon: '⭐' },
   { key: 'manage', label: '管理', icon: '🗑️', divider: true },
+  { key: 'stats', label: '统计', icon: '📊' },
 ];
 
 export default function Sidebar({ activeView, onViewChange }) {
@@ -14,7 +16,7 @@ export default function Sidebar({ activeView, onViewChange }) {
         <span className="sidebar-logo">TabFlow</span>
       </div>
       <nav className="sidebar-nav">
-        {VIEW_CONFIG.map(item => (
+        {VIEW_CONFIG.map((item, i) => (
           <div key={item.key}>
             {item.divider && <div className="sidebar-divider" />}
             <div

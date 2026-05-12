@@ -19,3 +19,14 @@
 .suggestion-item:hover {
   background: #e8f0fe;
 }
+
+.suggestions-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 6px 0;
+}
+
+.suggestion-all-history {
+  color: #1a73e8;
+  font-weight: 500;
+}

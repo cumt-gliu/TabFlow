@@ -5,15 +5,21 @@ import DomainGroup from './components/DomainGroup';
 import TimeGroup from './components/TimeGroup';
 import BatchActions from './components/BatchActions';
 import ExportDialog from './components/ExportDialog';
+import FilterBar from './components/FilterBar';
+import SearchSuggest from './components/SearchSuggest';
+import BookmarkList from './components/BookmarkList';
+import StatsDashboard from './components/StatsDashboard';
 import { searchHistory, deleteUrls } from '../shared/chromeApi';
-import { getSettings } from '../shared/storage';
+import { getSettings, addRecentSearch } from '../shared/storage';
 import './App.css';
 
 const VIEWS = {
   list: '全部历史',
   domain: '按域名',
   time: '按时间',
+  bookmarks: '收藏',
   manage: '管理',
+  stats: '统计',
 };
 
 export default function App() {
@@ -24,7 +30,10 @@ export default function App() {
   const [selected, setSelected] = useState(new Set());
   const [sortBy, setSortBy] = useState('lastVisitTime');
   const [showExport, setShowExport] = useState(false);
+  const [filters, setFilters] = useState(null);
+  const [searchFocused, setSearchFocused] = useState(false);
   const searchDebounceRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   useEffect(() => {
     getSettings().then(s => setActiveView(s.defaultView || 'list'));
@@ -41,13 +50,15 @@ export default function App() {
     };
   }, []);
 
-  async function executeSearch(value) {
-    if (!value.trim()) { loadAll(); return; }
+  async function executeSearch(value, extraFilters) {
+    if (!value.trim() && !extraFilters) { loadAll(); return; }
     setStatus('loading');
     try {
-      const res = await searchHistory({ query: value, maxResults: 200 });
+      const opts = { query: value, maxResults: 200, ...extraFilters };
+      const res = await searchHistory(opts);
       setResults(res);
       setStatus(res.length > 0 ? 'results' : 'empty');
+      if (value.trim()) addRecentSearch(value);
     } catch {
       setStatus('error');
     }
@@ -57,18 +68,41 @@ export default function App() {
     setQuery(value);
     if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
     searchDebounceRef.current = setTimeout(() => {
-      executeSearch(value);
+      executeSearch(value, filters || undefined);
     }, 300);
+  }
+
+  function handleSuggestionSelect(value) {
+    setQuery(value);
+    addRecentSearch(value);
+    executeSearch(value, filters || undefined);
+    searchInputRef.current?.blur();
   }
 
   async function loadAll() {
     setStatus('loading');
     try {
-      const res = await searchHistory({ query: '', maxResults: 200 });
+      const opts = { query: '', maxResults: 200 };
+      if (filters) Object.assign(opts, filters);
+      const res = await searchHistory(opts);
       setResults(res);
       setStatus(res.length > 0 ? 'results' : 'empty');
     } catch {
       setStatus('error');
+    }
+  }
+
+  function handleApplyFilters(filterData) {
+    setFilters(filterData);
+    executeSearch(query, filterData);
+  }
+
+  function handleResetFilters() {
+    setFilters(null);
+    if (query.trim()) {
+      executeSearch(query);
+    } else {
+      loadAll();
     }
   }
 
@@ -138,6 +172,8 @@ export default function App() {
         return <DomainGroup results={results} query={query} />;
       case 'time':
         return <TimeGroup results={results} query={query} />;
+      case 'bookmarks':
+        return <BookmarkList />;
       case 'manage':
         return (
           <div className="manage-view">
@@ -174,10 +210,14 @@ export default function App() {
             />
           </div>
         );
+      case 'stats':
+        return <StatsDashboard results={results} />;
       default:
         return null;
     }
   }
+
+  const showSearch = activeView !== 'bookmarks' && activeView !== 'stats';
 
   return (
     <div className="management-layout">
@@ -187,16 +227,38 @@ export default function App() {
       />
       <div className="main-area">
         <div className="top-bar">
-          <div className="top-bar-search">
-            <span className="search-icon">&#128269;</span>
-            <input
-              type="text"
-              placeholder="搜索标题或 URL..."
-              value={query}
-              onChange={e => handleSearch(e.target.value)}
-              className="top-search-input"
-            />
-          </div>
+          {showSearch ? (
+            <>
+              <div className="top-bar-row">
+                <div className="top-bar-search">
+                  <span className="search-icon">&#128269;</span>
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="搜索标题或 URL..."
+                    value={query}
+                    onChange={e => handleSearch(e.target.value)}
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
+                    className="top-search-input"
+                  />
+                </div>
+                <SearchSuggest
+                  focused={searchFocused && !query}
+                  onSelect={handleSuggestionSelect}
+                />
+              </div>
+              <FilterBar
+                results={results}
+                onApply={handleApplyFilters}
+                onReset={handleResetFilters}
+              />
+            </>
+          ) : (
+            <div className="top-bar-view-title">
+              {VIEWS[activeView]}
+            </div>
+          )}
         </div>
         <div className="content-area">
           {renderContent()}

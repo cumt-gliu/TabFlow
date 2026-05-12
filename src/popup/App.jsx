@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar';
 import SearchSuggestions from './components/SearchSuggestions';
 import SearchResults from './components/SearchResults';
 import { searchHistory } from '../shared/chromeApi';
-import { getRecentSearches } from '../shared/storage';
+import { getRecentSearches, addRecentSearch } from '../shared/storage';
 import './App.css';
 
 export default function App() {
@@ -51,6 +51,7 @@ export default function App() {
         if (requestId !== requestIdRef.current) return;
         setResults(res);
         setStatus(res.length > 0 ? 'results' : 'empty');
+        addRecentSearch(value).then(setRecentSearches);
       } catch {
         if (requestId === requestIdRef.current) setStatus('error');
       }
@@ -67,6 +68,7 @@ export default function App() {
       if (requestId !== requestIdRef.current) return;
       setResults(res);
       setStatus(res.length > 0 ? 'results' : 'empty');
+      addRecentSearch(value).then(setRecentSearches);
     }).catch(() => {
       if (requestId === requestIdRef.current) setStatus('error');
     });

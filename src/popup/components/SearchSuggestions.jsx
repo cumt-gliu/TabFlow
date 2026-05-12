@@ -1,20 +1,31 @@
 import './SearchSuggestions.css';
 
 export default function SearchSuggestions({ items, label, onSelect }) {
-  if (!items || items.length === 0) return null;
+  function handleViewAllHistory() {
+    const url = chrome.runtime.getURL('management/index.html');
+    chrome.tabs.create({ url });
+  }
 
   return (
     <div className="suggestions">
-      <div className="suggestions-label">{label}</div>
-      {items.map((item, i) => (
-        <div
-          key={i}
-          className="suggestion-item"
-          onClick={() => onSelect(item)}
-        >
-          {item}
-        </div>
-      ))}
+      {items && items.length > 0 && (
+        <>
+          <div className="suggestions-label">{label}</div>
+          {items.map((item, i) => (
+            <div
+              key={i}
+              className="suggestion-item"
+              onClick={() => onSelect(item)}
+            >
+              {item}
+            </div>
+          ))}
+        </>
+      )}
+      <div className="suggestions-divider" />
+      <div className="suggestion-item suggestion-all-history" onClick={handleViewAllHistory}>
+        全部历史 →
+      </div>
     </div>
   );
 }
